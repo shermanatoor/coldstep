@@ -107,3 +107,12 @@ When cutting **`vX.Y.Z`**, bump **`[X.Y.Z]`** in **`CHANGELOG.md`** in the same 
 | Branch / PR | **`release/v0.1.7-prerelease`** — open PR to `main` (pin + `CHANGELOG` **pre-release** section) |
 | After merge | Tag **`v0.1.7`**, push, confirm **supply-chain-attest**; mark GitHub Release **pre-release** until promoted |
 | Second brain | `knowledge/wiki/versioned-releases-and-prerelease.md` + `knowledge/reports/2026-04-20-pre-release-v0.1.7-process.md` |
+
+## Reference: v0.2.1
+
+| Step | Maintainer action |
+| ---- | ----------------- |
+| Release PR | Bump pins (`scripts/check_workflow_action_pins.py` **MARKETPLACE_COLDSTEP_TAG**), **`CHANGELOG.md` [0.2.1]**, demo/red-team **`COLDSTEP_AGENT_VERSION`**, docs, and **`website/index.html`** (allowed in the same train when the tag is about to ship; site should not advertise a tag that will never be published). |
+| After merge to `main` | `git tag -s v0.2.1 -m "Release v0.2.1"` → **`git push origin v0.2.1`**. |
+| Verify | **`supply-chain-attest`** green; Release **`v0.2.1`** lists **`coldstep-linux-amd64`**; **`gh release download v0.2.1 --pattern coldstep-linux-amd64`**. If the job failed on “immutable + no assets,” fix the empty Release (see workflow log) and re-run **`workflow_dispatch`** on **supply-chain-attest** for the tag, or delete the empty Release and push a new tag. |
+| Demo smoke | **`workflow_dispatch`** on **`coldstep-demo`** (env **`COLDSTEP_AGENT_VERSION: v0.2.1`**). |
